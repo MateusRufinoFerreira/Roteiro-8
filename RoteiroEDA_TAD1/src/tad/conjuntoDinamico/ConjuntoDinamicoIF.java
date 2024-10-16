@@ -6,9 +6,9 @@ public interface ConjuntoDinamicoIF<E> {
 	
 	public E remover(E item) throws ConjuntoVazioException;
 	
-	public E predecessor(E item);
+	public E predecessor(E item) throws ConjuntoVazioException;
 	
-	public E sucessor(E item) throws Exception;
+	public E sucessor(E item) throws ConjuntoVazioException;
 	
 	public int tamanho();
 	

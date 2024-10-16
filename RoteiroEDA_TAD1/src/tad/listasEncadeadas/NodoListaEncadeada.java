@@ -1,7 +1,7 @@
 package tad.listasEncadeadas;
 
 public class NodoListaEncadeada<T extends Comparable<T>> {
-
+	
 	protected T chave;//identificador
 	protected NodoListaEncadeada<T> proximo = null;
 
@@ -9,12 +9,12 @@ public class NodoListaEncadeada<T extends Comparable<T>> {
 		this.setChave(null);
 		this.setProximo(null);
 	}
-
+	
 	public NodoListaEncadeada(T chave) {
 		this.setChave(chave);
 		this.setProximo(null);
 	}
-
+	
 	public NodoListaEncadeada(T chave, NodoListaEncadeada<T> proximo) {
 		this.setChave(chave);
 		this.setProximo(proximo);
@@ -35,13 +35,13 @@ public class NodoListaEncadeada<T extends Comparable<T>> {
 	public void setProximo(NodoListaEncadeada<T> proximo) {
 		this.proximo = proximo;
 	}
-
+	
 	public boolean isNull() {
-		return (chave == null ? true:false);
+		return (chave == null);
 	}
 
 	@Override
-	public boolean equals(Object obj) {
+	/*public boolean equals(Object obj) {
 		if (obj == null || this.chave == null) {
 			return false;
 		}
@@ -52,15 +52,25 @@ public class NodoListaEncadeada<T extends Comparable<T>> {
 			return true;
 		}
 		return false;
-	}
+	}*/
 
+	public boolean equals(Object obj) {
+		if (obj == null || this.chave == null) {
+			return false;
+		}
+		if (this == obj){
+			return true;
+		}
+
+		@SuppressWarnings("unchecked")
+		NodoListaEncadeada<T> aComparar = (NodoListaEncadeada<T>) obj;
+
+		return this.chave != null && this.chave.equals(aComparar.getChave());
+	}
 	@Override
 	public String toString() {
 		if (!this.isNull())
 			return this.chave.toString();
 		return null;
 	}
-
-
-
 }

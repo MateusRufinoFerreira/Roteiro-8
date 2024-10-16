@@ -1,7 +1,7 @@
 package tad.pilha;
 
 public class MinhaPilha implements PilhaIF<Integer> {
-
+	
 	private int tamanho = 10;
 	private int cabeca = 0;
 	private Integer[] meusDados = null;
@@ -10,55 +10,86 @@ public class MinhaPilha implements PilhaIF<Integer> {
 		this.tamanho = tamanho;
 		meusDados = new Integer[tamanho];
 	}
-
+	
 	public MinhaPilha() {
 		meusDados = new Integer[tamanho];
 	}
 
 	@Override
 	public void empilhar(Integer item) throws PilhaCheiaException {
-		if (cabeca == tamanho) {
+		if (cabeca==tamanho-1){
 			throw new PilhaCheiaException();
+		} else {
+			this.meusDados[this.cabeca] =item;
+			if (this.cabeca<this.tamanho){
+				this.cabeca++;
+			}
 		}
-		meusDados[cabeca] = item;
-		cabeca++;
 	}
 
 	@Override
 	public Integer desempilhar() throws PilhaVaziaException {
-		if (isEmpty()) {
+		if (isEmpty()){
 			throw new PilhaVaziaException();
 		}
-		cabeca--;
-		Integer item = meusDados[cabeca];
-		meusDados[cabeca] = null;
-		return item;
+		Integer desempilhado = this.topo();
+		this.meusDados[cabeca-1] = null;
+		this.cabeca--;
+		return desempilhado;
 	}
 
 	@Override
 	public Integer topo() {
-		if (isEmpty()) {
-			return null;
+		Integer retorno = null;
+		if (!isEmpty()){
+			retorno = this.meusDados[cabeca-1];
 		}
-		return meusDados[cabeca - 1];
+		return retorno;
 	}
 
 	@Override
-	public PilhaIF<Integer> multitop(int k) throws PilhaCheiaException {
-		if (cabeca == tamanho) {
-			throw new PilhaCheiaException();
+	public PilhaIF<Integer> multitop(int k) throws PilhaCheiaException, PilhaVaziaException {
+		PilhaIF<Integer> retorno = null;
+		if (k > this.tamanho-1) {
+			throw new PilhaVaziaException();
 		}
-		MinhaPilha novaPilha = new MinhaPilha(Math.min(k, cabeca));
-		for (int i = cabeca - k; i < cabeca; i++) {
-			if (i >= 0) {
-				novaPilha.empilhar(meusDados[i]);
+		if (k == cabeca+1){
+			retorno = new MinhaPilha();
+			retorno.empilhar(this.meusDados[cabeca-1]);
+		} else{
+			retorno = new MinhaPilha();
+			for (int i = 1; i <= k  ; i++) {
+				retorno.empilhar(this.meusDados[cabeca-i]);
 			}
 		}
-		return novaPilha;
+
+		return retorno;
 	}
 
 	@Override
 	public boolean isEmpty() {
-		return cabeca == 0;
+		return cabeca==0;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj) {
+			return true;
+		}
+		if (obj == null || getClass() != obj.getClass()) {
+			return false;
+		}
+		MinhaPilha outraPilha = (MinhaPilha) obj;
+
+		if (this.cabeca != outraPilha.cabeca) {
+			return false;
+		}
+		for (int i = 0; i < cabeca; i++) {
+			if (!this.meusDados[i].equals(outraPilha.meusDados[i])) {
+				return false;
+			}
+		}
+
+		return true;
 	}
 }

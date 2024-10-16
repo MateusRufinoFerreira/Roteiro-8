@@ -21,4 +21,7 @@ public class NodoListaDuplamenteEncadeada<T extends Comparable<T>> extends NodoL
 		this.anterior = anterior;
 	}
 
+	public NodoListaDuplamenteEncadeada<T> getProximo() {
+		return (NodoListaDuplamenteEncadeada<T>)this.proximo;
+	}
 }
